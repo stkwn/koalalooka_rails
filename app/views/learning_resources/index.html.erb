@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row p-2">
+    <div class="col-md-12">
+      <h1>Leaning Resources</h1>
+    </div>
+  </div>
+  <div class="row align-items-center p-2" >
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Publisher</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      <% @learning_resources.each do |r| %>
+        <tr>
+          <td><%= link_to r.title, r %></td>
+          <td><%= r.publisher %></td>
+            <td style="width: 40%"><%= truncate(r.description, length: 25, separator: ' ')%></td>
+          <td>
+            <%= link_to 'Edit', edit_learning_resource_path(r), class: "btn btn-primary" %>
+            <%= link_to 'Delete', learning_resource_path(r), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+          </td>
+
+        </tr>
+      <% end %>
+    </table>
+</div>

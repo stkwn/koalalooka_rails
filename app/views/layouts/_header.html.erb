@@ -1,0 +1,35 @@
+<header>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <%= link_to root_path, class: 'navbar-brand' do %>
+      <img src="<%= image_path('logo.png') %>" alt="Koalalooka Logo" height="60" class="d-inline-block align-top">
+    <% end %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to 'Home', root_path, class: 'nav-link active', aria: { current: 'page' } %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Learning Resources", learning_resources_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Online Apps
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Flashcards</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="d-flex gap-2">
+        <%= link_to "Sign In", new_session_path, class: "btn btn-primary" %> 
+        <%= link_to "Sign Up", signup_path, class:"btn btn-primary" %> 
+      </ul>
+    </div>
+  </div>
+</nav>
+</header>

@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row p-2">
+    <div class="col-md-12">
+      <h1><%= @course.title %></h1>
+      <p><%= @course.description %></p>
+    </div>
+  </div>
+  <div class="row align-items-center p-2" >
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Term</th>
+          <th>Content</th>
+          <th>Actions</th>
+        </tr>
+      <% @course_items.each do |r| %>
+        <tr>
+          <td><%= r.term %></td>
+          <td>
+            <% r.content.values.each do |value| %>
+              <%= value %></br>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Edit', edit_course_course_item_path(@course, r), class: "btn btn-primary" %>
+            <%= link_to 'Delete', course_course_item_path(@course, r), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+          </td>
+
+        </tr>
+      <% end %>
+    </table>
+</div>

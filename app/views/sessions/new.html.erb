@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row p-2 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+      <div class="card col-md-4">
+        <div class="card-body">
+          <h5>Sign In</h5>
+              <%= form_with(url: session_path) do |f| %>
+                <div class="mb-3">
+                  <%= f.label :email, class: "form-label" %>
+                  <%= f.email_field :email, atuofocus: true, class: "form-control" %>                
+                </div>
+
+                <div class="mb-3">
+                  <%= f.label :password, class: "form-label" %>
+                  <%= f.password_field :password, class: "form-control" %>
+                </div>
+
+                <%= f.submit "Sign In", class: "btn btn-primary" %>
+              <% end %>
+        </div>
+      </div>
+  </div>
+</div>

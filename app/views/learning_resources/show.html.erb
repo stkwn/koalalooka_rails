@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row align-items-center p-2" >
+    <div class="col-md-4">
+      <div class="card">
+          <h5 class="card-title mb-2"><%= @learning_resource.title %> </h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary"><%= @learning_resource.description %></h6>
+          <div class="d-flex flex-row justify-content-around">
+            <%= link_to "Update Resource", edit_learning_resource_path(@learning_resource), class: "btn btn-primary"   %>
+            <%= link_to "Delete Resource", @learning_resource, 
+              data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+              class: "btn btn-danger" %>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>
