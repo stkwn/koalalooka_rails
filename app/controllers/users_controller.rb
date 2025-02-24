@@ -17,6 +17,7 @@ class UsersController < ApplicationController
 
     if @user.save
       # redirect to the user's profile page
+      session[:user_id] = @user.id
       redirect_to @user, notice: "Thanks for signing up!"
     else
       # if the user doesn't save, render the new form again
@@ -33,18 +34,23 @@ class UsersController < ApplicationController
 
     # update the user
     if @user.update(user_params)
-      redirect_to @user, notice: "User was successfully updated!"
+      flash[:notice] = "User was successfully updated!"
+      redirect_to @user
     else
+      flash[:alert] = "Something went wrong. Check your form and try again."
       # if the user doesn't save, render the edit form again
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
+    session
     @user = User.find(params[:id])
     @user.destroy
-
-    redirect_to users_path, notice: "User was successfully deleted!"
+    session[:user_id] = nil 
+    # if an admin deletes their own account, log them out, too but the seeion[:user_id] = nil is not working
+    flash[:notice] = "User was successfully deleted!"
+    redirect_to root_path, status: :see_other, notice: "User was successfully deleted!"
   end
 
 

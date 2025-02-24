@@ -48,6 +48,4 @@ class LearningResourcesController < ApplicationController
     params.require(:learning_resource).permit(:title, :description, :publisher, :image_url)
   end
 
-  
-
 end

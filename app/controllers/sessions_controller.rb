@@ -8,15 +8,18 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: params[:email].downcase)
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      flash[:success] = "You have successfully logged in"
-      redirect_to user,  notice: "Welcome back, #{user.name}"
+      flash[:notice] = "You have successfully logged in"
+      redirect_to @user,  notice: "Welcome back, #{@user.name}"
     else
+      flash.now[:alert] = "Invalid email/password combination!"
       render :new, status: :unprocessible_entity
     end
   end
 
   def destroy
-    
+    session[:user_id] = nil
+    flash[:notice] = "You have successfully logged out"
+    redirect_to root_path
   end
 
 end

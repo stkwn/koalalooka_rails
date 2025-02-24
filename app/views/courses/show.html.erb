@@ -5,7 +5,7 @@
       <p><%= @course.description %></p>
     </div>
   </div>
-  <div class="row align-items-center p-2" >
+  <div class="row align-items-center p-2" data-controller="course-item" data-course-item-course-id-value="<%= @course.id %>">
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -13,8 +13,9 @@
           <th>Content</th>
           <th>Actions</th>
         </tr>
+      </thead>
       <% @course_items.each do |r| %>
-        <tr>
+        <tr data-course-item-id-value="<%= r.id %>">
           <td><%= r.term %></td>
           <td>
             <% r.content.values.each do |value| %>
@@ -22,11 +23,26 @@
             <% end %>
           </td>
           <td>
-            <%= link_to 'Edit', edit_course_course_item_path(@course, r), class: "btn btn-primary" %>
-            <%= link_to 'Delete', course_course_item_path(@course, r), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+            <button class="btn btn-primary" data-course-item-target="editBtn" data-action="click->course-item#edit">Edit</button>
+            <button class="btn btn-danger" data-action="click->course-item#delete" data-course-item-target="deleteBtn">Delete</button>
           </td>
-
         </tr>
       <% end %>
+      <tr data-course-item-target="newItemForm" style="display: none;">
+        <td>
+          <input type="text" class="form-control" id="newTerm" placeholder="Enter term">
+        </td>
+        <td>
+          <input type="text" class="form-control" id="newContent" placeholder="Enter content">
+        </td>
+        <td>
+          <button class="btn btn-success btn-sm me-2" data-action="click->course-item#saveNew">Save</button>
+          <button class="btn btn-secondary btn-sm" data-action="click->course-item#hideNewForm">Cancel</button>
+        </td>
+      </tr>
     </table>
+        <div class="mb-3">
+      <button class="btn btn-success" data-course-item-target="addNewBtn" data-action="click->course-item#showNewForm">Add New Item</button>
+    </div>
+  </div>
 </div>

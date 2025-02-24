@@ -1,17 +1,38 @@
 <div class="container">
-  <div class="row align-items-center p-2" >
-    <div class="col-md-4">
+  <div class="row p-2">
+    <div class="col-md-12">
       <div class="card">
-          <h5 class="card-title mb-2"><%= @learning_resource.title %> </h5>
-          <h6 class="card-subtitle mb-2 text-body-secondary"><%= @learning_resource.description %></h6>
+        <div class="card-body">
+          <h5 class="card-title mb-2 text-center"><%= @learning_resource.title %></h5>
+          <p class="card-subtitle mb-2 text-body-secondary"><%= @learning_resource.description %></p>
           <div class="d-flex flex-row justify-content-around">
-            <%= link_to "Update Resource", edit_learning_resource_path(@learning_resource), class: "btn btn-primary"   %>
+            <%= link_to "Update Resource", edit_learning_resource_path(@learning_resource), class: "btn btn-primary" %>
             <%= link_to "Delete Resource", @learning_resource, 
               data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
               class: "btn btn-danger" %>
           </div>
         </div>
       </div>
-    </div>  
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <h3>Associated Courses</h3>
+      <div class="row">
+        <% @learning_resource.courses.each do |course| %>
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= course.title %></h5>
+                <p class="card-text"><%= course.description %></p>
+                <p class="card-text"><small class="text-muted">Type: <%= course.course_type %></small></p>
+                <%= link_to "View Course", course_path(course), class: "btn btn-primary" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
