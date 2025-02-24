@@ -1,0 +1,58 @@
+<% if @items.any? %>
+  <div class="container mt-4">
+    <h2><%= @study_set.title %> - Study Mode</h2>
+    
+    <div class="card mb-4">
+      <div class="card-body">
+        <% item = @items.first %>
+        <h3 class="card-title">Question</h3>
+        <p class="card-text"><%= item.question %></p>
+        
+        <hr>
+        
+        <h3 class="card-title mt-4">Answer</h3>
+        <div class="answer-section" style="display: none;">
+          <p class="card-text"><%= item.answer %></p>
+        </div>
+        
+        <button class="btn btn-primary mb-4" onclick="toggleAnswer()">Show Answer</button>
+        
+        <% if @progress %>
+          <div class="confidence-rating mt-4">
+            <h4>How well did you know this?</h4>
+            <div class="btn-group">
+              <% (1..5).each do |level| %>
+                <%= button_to mark_as_studied_study_progress_path(@progress), 
+                      method: :post,
+                      params: { confidence_level: level },
+                      class: "btn btn-outline-primary",
+                      form_class: "d-inline" do %>
+                  <%= level %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function toggleAnswer() {
+      const answerSection = document.querySelector('.answer-section');
+      if (answerSection.style.display === 'none') {
+        answerSection.style.display = 'block';
+      } else {
+        answerSection.style.display = 'none';
+      }
+    }
+  </script>
+<% else %>
+  <div class="container mt-4">
+    <div class="alert alert-info">
+      <h4>No items to study right now!</h4>
+      <p>You've completed all your study items for now. Check back later for review items.</p>
+      <%= link_to "Back to Study Set", @study_set, class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Select Courses for "<%= @study_set.title %>"</h1>
+      
+      <% if @available_courses.empty? %>
+        <div class="alert alert-info">
+          No more courses available to add. <%= link_to 'Return to study set', study_set_path(@study_set) %>
+        </div>
+      <% else %>
+        <div class="row">
+          <% @available_courses.each do |course| %>
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= course.title %>
+                    <small class="text-muted">(<%= course.learning_resource.title %>)</small>
+                  </h5>
+                  
+                  <p class="card-text">
+                    <%= truncate(course.description, length: 100) if course.description %>
+                  </p>
+                  
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                      <%= pluralize(course.course_items.count, 'item') %>
+                    </small>
+                    <%= button_to add_course_study_set_path(@study_set, course_id: course.id),
+                                class: 'btn btn-primary btn-sm',
+                                method: :post do %>
+                      Add to Study Set
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="mt-4">
+          <%= link_to 'Done - Set Learning Goals', new_study_set_learning_plan_path(@study_set), class: 'btn btn-success' %>
+          <%= link_to 'Done - Return to Study Set', study_set_path(@study_set), class: 'btn btn-outline-secondary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

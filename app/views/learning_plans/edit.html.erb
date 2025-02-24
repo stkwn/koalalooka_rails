@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Edit Learning Goals for "<%= @study_set.title %>"</h1>
+      
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <h5 class="mb-1">Current Progress</h5>
+              <p class="mb-0">
+                Items Studied: <%= @study_set.studied_items %> of <%= @study_set.total_items %><br>
+                Progress: <%= number_to_percentage(@study_set.progress_percentage, precision: 1) %>
+              </p>
+            </div>
+            <div>
+              <%= button_to study_set_learning_plan_path(@study_set, @learning_plan),
+                          method: :delete,
+                          class: 'btn btn-outline-danger',
+                          data: { confirm: 'Are you sure you want to delete this learning plan?' } do %>
+                Delete Plan
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

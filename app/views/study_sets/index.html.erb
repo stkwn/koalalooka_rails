@@ -1,0 +1,54 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>My Study Sets</h1>
+    <%= link_to 'Create New Study Set', new_study_set_path, class: 'btn btn-primary' %>
+  </div>
+
+  <div class="row">
+    <% @study_sets.each do |study_set| %>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= study_set.title %></h5>
+            <p class="card-text"><%= truncate(study_set.description, length: 100) if study_set.description %></p>
+            
+            <div class="progress mb-3">
+              <div class="progress-bar" role="progressbar" style="width: <%= study_set.progress_percentage %>%"
+                   aria-valuenow="<%= study_set.progress_percentage %>" aria-valuemin="0" aria-valuemax="100">
+                <%= number_to_percentage(study_set.progress_percentage, precision: 1) %>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <small class="text-muted">
+                  <%= pluralize(study_set.courses.count, 'course') %> |
+                  <%= pluralize(study_set.total_items, 'item') %>
+                </small>
+              </div>
+
+              <div class="btn-group">
+                <% if study_set.learning_plan %>
+                  <%= link_to 'Study', study_study_set_path(study_set), class: 'btn btn-success btn-sm' %>
+                <% else %>
+                  <%= link_to 'Set Goals', new_study_set_learning_plan_path(study_set), class: 'btn btn-outline-primary btn-sm' %>
+                <% end %>
+                <%= link_to 'View', study_set_path(study_set), class: 'btn btn-outline-secondary btn-sm' %>
+                <%= link_to 'Edit', edit_study_set_path(study_set), class: 'btn btn-outline-secondary btn-sm' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @study_sets.empty? %>
+      <div class="col-12 text-center">
+        <div class="alert alert-info">
+          You haven't created any study sets yet. 
+          <%= link_to 'Create your first study set', new_study_set_path, class: 'alert-link' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

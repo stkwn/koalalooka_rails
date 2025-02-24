@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Set Learning Goals for "<%= @study_set.title %>"</h1>
+      
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <h5 class="mb-1">Study Set Overview</h5>
+              <p class="mb-0">
+                Total Items: <%= @study_set.total_items %><br>
+                Selected Courses: <%= pluralize(@study_set.courses.count, 'course') %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

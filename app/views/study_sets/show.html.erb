@@ -1,0 +1,100 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><%= @study_set.title %></h1>
+        <div>
+          <%= link_to 'Edit', edit_study_set_path(@study_set), class: 'btn btn-outline-secondary' %>
+          <%= link_to 'Back to Study Sets', study_sets_path, class: 'btn btn-outline-secondary' %>
+        </div>
+      </div>
+
+      <% if @study_set.description.present? %>
+        <div class="card mb-4">
+          <div class="card-body">
+            <p class="card-text"><%= @study_set.description %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Progress</h5>
+              <div class="progress mb-2">
+                <div class="progress-bar" role="progressbar" style="width: <%= @progress %>%"
+                     aria-valuenow="<%= @progress %>" aria-valuemin="0" aria-valuemax="100">
+                  <%= number_to_percentage(@progress, precision: 1) %>
+                </div>
+              </div>
+              <p class="card-text">
+                <%= @study_set.studied_items %> of <%= @study_set.total_items %> items studied
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <% if @study_set.learning_plan %>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Learning Plan</h5>
+                <p class="card-text">
+                  Daily Goal: <%= pluralize(@study_set.learning_plan.daily_goal, 'item') %><br>
+                  Review Every: <%= pluralize(@study_set.learning_plan.review_interval, 'day') %>
+                </p>
+                <%= link_to 'Edit Plan', edit_study_set_learning_plan_path(@study_set, @study_set.learning_plan), 
+                          class: 'btn btn-outline-primary btn-sm' %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Selected Courses</h5>
+          <%= link_to 'Add More Courses', select_courses_study_set_path(@study_set), class: 'btn btn-primary btn-sm' %>
+        </div>
+        <div class="card-body">
+          <% if @courses.empty? %>
+            <p class="text-muted">No courses selected yet.</p>
+          <% else %>
+            <div class="list-group">
+              <% @courses.each do |course| %>
+                <div class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="mb-1"><%= course.title %></h6>
+                      <small class="text-muted">
+                        <%= course.learning_resource.title %> |
+                        <%= pluralize(course.course_items.count, 'item') %>
+                      </small>
+                    </div>
+                    <%= button_to remove_course_study_set_path(@study_set, course_id: course.id),
+                                method: :delete,
+                                class: 'btn btn-outline-danger btn-sm',
+                                data: { confirm: 'Are you sure you want to remove this course?' } do %>
+                      Remove
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <% if @courses.any? %>
+        <div class="text-center">
+          <% if @study_set.learning_plan %>
+            <%= link_to 'Start Studying', study_study_set_path(@study_set), class: 'btn btn-success btn-lg' %>
+          <% else %>
+            <%= link_to 'Set Learning Goals', new_study_set_learning_plan_path(@study_set), class: 'btn btn-primary btn-lg' %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

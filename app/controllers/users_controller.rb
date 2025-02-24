@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:new, :create]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
     @users = User.all
   end
 
   def show
-    @user = User.find(params[:id])
   end
 
   def new
@@ -26,12 +28,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
-
     # update the user
     if @user.update(user_params)
       flash[:notice] = "User was successfully updated!"
@@ -44,8 +43,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    session
-    @user = User.find(params[:id])
     @user.destroy
     session[:user_id] = nil 
     # if an admin deletes their own account, log them out, too but the seeion[:user_id] = nil is not working
@@ -56,7 +53,18 @@ class UsersController < ApplicationController
 
   private
 
+  def set_user
+    @user = User.find(params[:id])
+  end
+
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def authorize_user!
+    unless @user == current_user
+      flash[:alert] = "You are not authorized to perform this action."
+      redirect_to root_path
+    end
   end
 end

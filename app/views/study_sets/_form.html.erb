@@ -1,0 +1,28 @@
+<%= form_with(model: study_set, local: true, class: 'needs-validation') do |f| %>
+  <% if study_set.errors.any? %>
+    <div class="alert alert-danger">
+      <h2><%= pluralize(study_set.errors.count, "error") %> prohibited this study set from being saved:</h2>
+      <ul>
+        <% study_set.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :title, class: 'form-label' %>
+    <%= f.text_field :title, class: 'form-control', required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, class: 'form-label' %>
+    <%= f.text_area :description, class: 'form-control', rows: 4 %>
+    <div class="form-text">A brief description of what you'll be studying in this set.</div>
+  </div>
+
+  <div class="mt-4">
+    <%= f.submit class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', study_sets_path, class: 'btn btn-outline-secondary' %>
+  </div>
+<% end %>
